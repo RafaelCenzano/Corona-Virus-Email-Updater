@@ -63,6 +63,8 @@ CDC updated @ {pageDate}
         smtp_server.sendmail(senderEmail, recieverEmail, message)
         smtp_server.quit()
 
+        print(f'Email sent @ {nowFormatted}')
+
     #r = requests.get('https://projects.sfchronicle.com/2020/coronavirus-map/')
     #page = r.text
 
