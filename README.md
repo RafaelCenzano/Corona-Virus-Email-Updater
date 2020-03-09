@@ -46,3 +46,25 @@ This Readme was created with [pystarter](https://github.com/RafaelCenzano/PyStar
 ```
 pip3 install pystarter
 ```
+
+## Example Email:
+
+```
+Hello,
+
+Update: 3/9/20 10:53 AM
+
+CDC updated @ Updated March 9, 2020
+
+Total cases: 423
+157.9268292682927% increase in cases in U.S.
+
+Total deaths: 19
+72.72727272727273% increase in deaths in U.S.
+
+States reporting cases: 35 (includes District of Columbia)
+84.21052631578947% increase in states with cases in U.S.
+
+- COVID-19 Reporter
+                         
+```
