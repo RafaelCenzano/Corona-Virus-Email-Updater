@@ -20,16 +20,20 @@ def scraper():
 
 
     f = open('cdc-date.txt', 'r')
-    date = f.readlines()
+    data = f.readlines()
     f.close()
+
+    fo = open('cdc.txt', 'r')
+    date = fo.read()
 
     dates = soup.find_all(attrs={'class':'text-red'})
     pageDate = dates[0].text
 
-    if pageDate != date[0]:
+    if pageDate != date:
 
-        fnew = open('cdc-date.txt', 'w')
+        fnew = open('cdc.txt', 'w')
         fnew.write(pageDate)
+        fnew.close()
 
         div = soup.find(attrs={'class':'card-body bg-white'})
 
@@ -38,7 +42,9 @@ def scraper():
         deaths = litags[1].text
         statesWith = litags[2].text
 
-        fnew.write(f'\n{cases}')
+        fnew = open('cdc-date.txt', 'w')
+
+        fnew.write(cases)
         fnew.write(f'\n{deaths}')
         fnew.write(f'\n{statesWith}')
         fnew.close()
@@ -48,9 +54,9 @@ def scraper():
         currentCases = findValue(cases)
         currentDeaths = findValue(deaths)
         currentStates = findValue(statesWith)
-        pastCases = findValue(date[1])
-        pastDeaths = findValue(date[2])
-        pastStates = findValue(date[3])
+        pastCases = findValue(data[0])
+        pastDeaths = findValue(data[1])
+        pastStates = findValue(data[2])
 
         if currentCases > pastCases:
             casesPercentage = ((currentCases - pastCases) / pastCases) * 100
