@@ -70,5 +70,5 @@ CDC updated @ {pageDate}
 
 
 while True:
-    delay(60*60)
     scraper()
+    delay(60*60)
