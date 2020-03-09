@@ -3,4 +3,5 @@ venv/
 *.pyc
 __pycache__/
 cdc-date.txt
+cdc.txt
 secret.py
