@@ -54,7 +54,7 @@ Hello,
 
 Update: 3/9/20 10:53 AM
 
-CDC updated @ Updated March 9, 2020
+CDC updated @ March 9, 2020
 
 Total cases: 423
 157.9268292682927% increase in cases in U.S.

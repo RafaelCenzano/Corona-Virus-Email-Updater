@@ -78,7 +78,7 @@ Hello,
 
 Update: {nowFormatted}
 
-CDC updated @ {pageDate}
+CDC {pageDate}
 
 {cases}
 {casesPercentage}% {changeCases} in cases in U.S.
