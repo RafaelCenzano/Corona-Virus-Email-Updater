@@ -1,6 +1,11 @@
-from time import sleep as delay
 import requests
 from bs4 import BeautifulSoup as bs
+from time import sleep as delay
+from secret import *
+from smtplib import SMTP
+from datetime import datetime
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 def scraper():
@@ -27,8 +32,41 @@ def scraper():
         deaths = litags[12].text
         statesWith = litags[13].text
 
+        nowFormatted = datetime.now().strftime('%-m/%-d/%y %-I:%-M %p')
 
-#while True:
-    #delay(60*30)
-if True:
+        email_message = (f'''
+Hello,
+
+Update: {nowFormatted}
+
+CDC updated @ {pageDate}
+
+{cases}
+{deaths}
+{statesWith}
+
+- Covid-19 reporter
+                          ''')
+
+        msg = MIMEMultipart()
+        msg['From'] = f'covid-19 updater <{senderEmail}>'
+        msg['To'] = recieverEmail
+        msg['Subject'] = f'Update: {nowFormatted}'
+        msg.attach(MIMEText(email_message,'plain'))
+        message = msg.as_string()
+
+        smtp_server = SMTP('smtp.gmail.com', 587)
+        smtp_server.ehlo_or_helo_if_needed()
+        smtp_server.starttls()
+        smtp_server.ehlo_or_helo_if_needed()
+        smtp_server.login(senderEmail, senderPassword)
+        smtp_server.sendmail(senderEmail, recieverEmail, message)
+        smtp_server.quit()
+
+    #r = requests.get('https://projects.sfchronicle.com/2020/coronavirus-map/')
+    #page = r.text
+
+
+while True:
+    delay(60*60)
     scraper()
