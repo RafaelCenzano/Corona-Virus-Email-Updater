@@ -59,24 +59,30 @@ def scraper():
         pastStates = findValue(data[2])
 
         if currentCases > pastCases:
-            casesPercentage = ((currentCases - pastCases) / pastCases) * 100
+            differenceCases = currentCases - pastCases
+            casesPercentage = (differenceCases / pastCases) * 100
             changeCases = 'increase'
         else:
-            casesPercentage = ((pastCases - currentCases) / pastCases) * 100
+            differenceCases = pastCases - currentCases
+            casesPercentage = (differenceCases / pastCases) * 100
             changeCases = 'decrease'
 
         if currentDeaths > pastDeaths:
-            deathsPercentage = ((currentDeaths - pastDeaths) / pastDeaths) * 100
+            differenceDeaths = currentDeaths - pastDeaths
+            deathsPercentage = (differenceDeaths / pastDeaths) * 100
             changeDeaths = 'increase'
         else:
-            deathsPercentage = ((pastDeaths - currentDeaths) / pastDeaths) * 100
+            differenceDeaths = pastDeaths - currentDeaths
+            deathsPercentage = (differenceDeaths / pastDeaths) * 100
             changeDeaths = 'decrease'
 
         if currentStates > pastStates:
-            statesPercentage = ((currentStates - pastStates) / pastStates) * 100
+            differenceStates = currentStates - pastStates
+            statesPercentage = (differenceStates / pastStates) * 100
             changeStates = 'increase'
         else:
-            statesPercentage = ((pastStates - currentStates) / pastStates) * 100
+            differenceStates = pastStates - currentStates
+            statesPercentage = (differenceStates / pastStates) * 100
             changeStates = 'decrease'
 
         email_message = (f'''
@@ -86,17 +92,19 @@ Update: {nowFormatted}
 
 CDC {pageDate}
 
-{cases}
+Current Cases: {cases}
+{differenceCases} case {changeCases}.
 {casesPercentage}% {changeCases} in cases in U.S.
 
-{deaths}
+Current Death count: {deaths}
+{differenceDeaths} death {changeDeaths}.
 {deathsPercentage}% {changeDeaths} in deaths in U.S.
 
-{statesWith}
+Current States reporting cases: {statesWith}
+{differenceStates} state {changeStates}.
 {statesPercentage}% {changeStates} in states with cases in U.S.
 
-- COVID-19 Reporter
-                          ''')
+- COVID-19 Reporter''')
 
         msg = MIMEMultipart()
         msg['From'] = f'COVID-19 Reporter <{senderEmail}>'
