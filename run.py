@@ -9,8 +9,14 @@ from email.mime.multipart import MIMEMultipart
 
 
 def findValue(str):
-    temp = [int(s) for s in str.split() if s.isdigit()]
-    return temp[0]
+
+    string = ''
+
+    for letter in list(str):
+        if letter.isdigit():
+            string += letter
+
+    return float(string)
 
 
 def scraper():
@@ -38,6 +44,7 @@ def scraper():
         div = soup.find(attrs={'class':'card-body bg-white'})
 
         litags = div.find_all('li')
+        print(litags)
         cases = litags[0].text
         deaths = litags[1].text
         statesWith = litags[2].text
@@ -123,10 +130,7 @@ Current States reporting cases: {statesWith}
 
         print(f'Email sent @ {nowFormatted}')
 
-    #r = requests.get('https://projects.sfchronicle.com/2020/coronavirus-map/')
-    #page = r.text
-
-
+#if True:
 while True:
     scraper()
-    delay(60*60)
+    delay(60*30)
