@@ -44,7 +44,6 @@ def scraper():
         div = soup.find(attrs={'class':'card-body bg-white'})
 
         litags = div.find_all('li')
-        print(litags)
         cases = litags[0].text
         deaths = litags[1].text
         statesWith = litags[2].text
