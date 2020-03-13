@@ -99,15 +99,15 @@ Update: {nowFormatted}
 CDC {pageDate}
 
 Current Cases: {cases}
-{differenceCases} case {changeCases}.
+{int(differenceCases)} case {changeCases}.
 {casesPercentage}% {changeCases} in cases in U.S.
 
 Current Death count: {deaths}
-{differenceDeaths} death {changeDeaths}.
+{int(differenceDeaths)} death {changeDeaths}.
 {deathsPercentage}% {changeDeaths} in deaths in U.S.
 
 Current States reporting cases: {statesWith}
-{differenceStates} state {changeStates}.
+{int(differenceStates)} state {changeStates}.
 {statesPercentage}% {changeStates} in states with cases in U.S.
 
 - COVID-19 Reporter''')
