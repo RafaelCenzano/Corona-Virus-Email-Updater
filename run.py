@@ -18,6 +18,12 @@ def findValue(str):
 
     return float(string)
 
+def findValueList(listA):
+
+    for items in listA:
+        if items.isdigit():
+            return float(items)
+
 
 def scraper():
     r = requests.get('https://www.cdc.gov/coronavirus/2019-ncov/cases-in-us.html')
@@ -59,10 +65,10 @@ def scraper():
 
         currentCases = findValue(cases)
         currentDeaths = findValue(deaths)
-        currentStates = findValue(statesWith)
+        currentStates = findValueList(statesWith.split(' '))
         pastCases = findValue(data[0])
         pastDeaths = findValue(data[1])
-        pastStates = findValue(data[2])
+        pastStates = findValueList(data[2].split(''))
 
         if currentCases > pastCases:
             differenceCases = currentCases - pastCases
