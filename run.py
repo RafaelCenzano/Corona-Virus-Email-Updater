@@ -104,15 +104,15 @@ Update: {nowFormatted}
 
 CDC {pageDate}
 
-Current Cases: {cases}
+{cases}
 {int(differenceCases)} case {changeCases}.
 {casesPercentage}% {changeCases} in cases in U.S.
 
-Current Death count: {deaths}
+{deaths}
 {int(differenceDeaths)} death {changeDeaths}.
 {deathsPercentage}% {changeDeaths} in deaths in U.S.
 
-Current States reporting cases: {statesWith}
+{statesWith}
 {int(differenceStates)} state {changeStates}.
 {statesPercentage}% {changeStates} in states with cases in U.S.
 
