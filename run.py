@@ -68,7 +68,7 @@ def scraper():
         currentStates = findValueList(statesWith.split(' '))
         pastCases = findValue(data[0])
         pastDeaths = findValue(data[1])
-        pastStates = findValueList(data[2].split(''))
+        pastStates = findValueList(data[2].split(' '))
 
         if currentCases > pastCases:
             differenceCases = currentCases - pastCases
