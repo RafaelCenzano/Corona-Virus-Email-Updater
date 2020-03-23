@@ -2,6 +2,8 @@
 
 Simple project that requests and webscrapes website then sends email when new content is released.
 
+CDC stopped updating the page
+
 #### Requirements
 
 [Use a virtualenv to create an isolated enviorment](https://virtualenv.pypa.io/en/latest/)
