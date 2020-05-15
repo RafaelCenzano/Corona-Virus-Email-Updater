@@ -34,7 +34,7 @@ def scraper():
     californiaCases = californiaParts[0]
     californiaDeaths = californiaParts[len(californiaParts)-2]
 
-    bayAreaParts = pTags[4].text[3:].split()
+    bayAreaParts = pTags[4].text[2:].split()
     bayAreaCases = bayAreaParts[0]
     bayAreaDeaths = bayAreaParts[len(bayAreaParts)-2]
 
