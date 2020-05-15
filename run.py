@@ -1,6 +1,7 @@
 import requests
+import json
+import os
 from bs4 import BeautifulSoup as bs
-from time import sleep as delay
 from secret import *
 from smtplib import SMTP
 from datetime import datetime
@@ -8,115 +9,99 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
-def findValue(str):
-
-    string = ''
-
-    for letter in list(str):
-        if letter.isdigit():
-            string += letter
-
-    return float(string)
-
-def findValueList(listA):
-
-    for items in listA:
-        if items.isdigit():
-            return float(items)
-
-
 def scraper():
-    r = requests.get('https://www.cdc.gov/coronavirus/2019-ncov/cases-in-us.html')
+    r = requests.get('https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html')
     page = r.text
     soup = bs(page, 'lxml')
 
+    nowFormatted = datetime.now().strftime('%-m/%-d/%y %-I:%M %p')
 
-    f = open('cdc-date.txt', 'r')
-    data = f.readlines()
-    f.close()
+    totals = soup.find_all(attrs={'class':'count'})
+    newCasesData = soup.find_all(attrs={'class':'new-cases'})
 
-    fo = open('cdc.txt', 'r')
-    date = fo.read()
+    newCasesText = newCasesData[0].text
+    newCases = newCasesText[:len(newCasesText)-11]
+    newDeathsText = newCasesData[1].text
+    newDeaths = newDeathsText[:len(newDeathsText)-12]
 
-    dates = soup.find_all(attrs={'class':'text-red'})
-    pageDate = dates[0].text
+    r2 = requests.get('https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php')
+    page2 = r2.text
+    soup2 = bs(page2, 'lxml')
 
-    if pageDate != date:
+    pTags = soup2.findAll('p')
 
-        fnew = open('cdc.txt', 'w')
-        fnew.write(pageDate)
-        fnew.close()
+    californiaParts = pTags[3].text[3:].split()
+    californiaCases = californiaParts[0]
+    californiaDeaths = californiaParts[len(californiaParts)-2]
 
-        div = soup.find(attrs={'class':'card-body bg-white'})
+    bayAreaParts = pTags[4].text[3:].split()
+    bayAreaCases = bayAreaParts[0]
+    bayAreaDeaths = bayAreaParts[len(bayAreaParts)-2]
 
-        litags = div.find_all('li')
-        cases = litags[0].text
-        deaths = litags[1].text
-        statesWith = litags[2].text
+    calCasesToday = int(''.join(californiaCases.split(',')))
+    calDeathsToday = int(''.join(californiaDeaths.split(',')))
+    baCasesToday = int(''.join(bayAreaCases.split(',')))
+    baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
 
-        fnew = open('cdc-date.txt', 'w')
+    if os.path.isfile('past.json') == False:
 
-        fnew.write(cases)
-        fnew.write(f'\n{deaths}')
-        fnew.write(f'\n{statesWith}')
-        fnew.close()
+        jsonData = {'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday}
 
-        nowFormatted = datetime.now().strftime('%-m/%-d/%y %-I:%M %p')
+        with open('past.json', 'w') as jsonFile:
+            json.dump(jsonData, jsonFile)
 
-        currentCases = findValue(cases)
-        currentDeaths = findValue(deaths)
-        currentStates = findValueList(statesWith.split(' '))
-        pastCases = findValue(data[0])
-        pastDeaths = findValue(data[1])
-        pastStates = findValueList(data[2].split(' '))
+        calDifferenceCases = 'Unknown'
+        calDifferenceDeaths = 'Unknown'
+        baDifferenceCases = 'Unknown'
+        baDifferencesDeaths = 'Unknown'
 
-        if currentCases > pastCases:
-            differenceCases = currentCases - pastCases
-            casesPercentage = (differenceCases / pastCases) * 100
-            changeCases = 'increase'
-        else:
-            differenceCases = pastCases - currentCases
-            casesPercentage = (differenceCases / pastCases) * 100
-            changeCases = 'decrease'
+    else:
 
-        if currentDeaths > pastDeaths:
-            differenceDeaths = currentDeaths - pastDeaths
-            deathsPercentage = (differenceDeaths / pastDeaths) * 100
-            changeDeaths = 'increase'
-        else:
-            differenceDeaths = pastDeaths - currentDeaths
-            deathsPercentage = (differenceDeaths / pastDeaths) * 100
-            changeDeaths = 'decrease'
+        with open('past.json', 'r') as jsonFile:
+            jsonData = json.load(jsonFile)
 
-        if currentStates > pastStates:
-            differenceStates = currentStates - pastStates
-            statesPercentage = (differenceStates / pastStates) * 100
-            changeStates = 'increase'
-        else:
-            differenceStates = pastStates - currentStates
-            statesPercentage = (differenceStates / pastStates) * 100
-            changeStates = 'decrease'
+        calDifferenceCases = calCasesToday - jsonData['calCasesToday']
+        calDifferenceDeaths = calDeathsToday - jsonData['calDeathsToday']
+        baDifferenceCases = baCasesToday - jsonData['baCasesToday']
+        baDifferencesDeaths = baDeathsToday - jsonData['baDeathsToday']
 
-        email_message = (f'''
+
+    email_message = (f'''
 Hello,
 
 Update: {nowFormatted}
 
-CDC {pageDate}
 
-{cases}
-{int(differenceCases)} case {changeCases}.
-{casesPercentage}% {changeCases} in cases in U.S.
+United States Data from CDC:
 
-{deaths}
-{int(differenceDeaths)} death {changeDeaths}.
-{deathsPercentage}% {changeDeaths} in deaths in U.S.
+Total cases: {totals[0].text}
+New cases: {newCases}
 
-{statesWith}
-{int(differenceStates)} state {changeStates}.
-{statesPercentage}% {changeStates} in states with cases in U.S.
+Total deaths: {totals[1].text}
+New deaths: {newDeaths}
+
+
+California Data from SF Chronicle:
+
+Total cases: {californiaCases}
+New cases: {calDifferenceCases}
+
+Total deaths: {californiaDeaths}
+New deaths: {calDifferenceDeaths}
+
+
+San Francisco from SF Chronicle:
+
+Total cases: {bayAreaCases}
+New cases: {baDifferenceCases}
+
+Total deaths: {bayAreaDeaths}
+New deaths: {baDifferencesDeaths}
+
 
 - COVID-19 Reporter''')
+
+    for recieverEmail in recieverEmails:
 
         msg = MIMEMultipart()
         msg['From'] = f'COVID-19 Reporter <{senderEmail}>'
@@ -133,9 +118,7 @@ CDC {pageDate}
         smtp_server.sendmail(senderEmail, recieverEmail, message)
         smtp_server.quit()
 
-        print(f'Email sent @ {nowFormatted}')
+        print(f'Email sent to {recieverEmail} @ {nowFormatted}')
 
-#if True:
-while True:
+if __name__ == '__main__':
     scraper()
-    delay(60*30)
