@@ -6,6 +6,14 @@ CDC stopped updating the page
 
 #### Requirements
 
+create a secret.py with these variables:
+
+```
+senderEmail = 'youremail@gmail.com' # has to be gmail
+senderPassword = 'you app password'
+recieverEmails = ['contact@domain.com', 'other@domain.com']
+```
+
 [Use a virtualenv to create an isolated enviorment](https://virtualenv.pypa.io/en/latest/)
 
 Run the make command to install requirements
@@ -50,6 +58,43 @@ pip3 install pystarter
 ```
 
 ## Example Email:
+
+New Example:
+
+```
+Hello,
+
+Update: 5/14/20 10:49 PM
+
+
+United States Data from CDC:
+
+Total cases: 1,384,930
+New cases: 20,869
+
+Total deaths: 83,947
+New deaths: 1,701
+
+
+California Data from SF Chronicle:
+
+Total cases: 74,806
+New cases: 2,035
+
+Total deaths: 3,049
+New deaths: 35
+
+
+San Francisco from SF Chronicle:
+
+Total cases: 10,352
+New cases: 321
+
+Total deaths: 381
+New deaths: 10
+```
+
+Old Example:
 
 ```
 Hello,
