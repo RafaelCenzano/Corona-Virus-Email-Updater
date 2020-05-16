@@ -64,7 +64,7 @@ pip3 install pystarter
 
 New Example:
 
-Image:
+Html:
 
 ![Image example of email](example.png)
 
