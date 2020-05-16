@@ -16,8 +16,8 @@ def scraper():
 
     nowFormatted = datetime.now().strftime('%-m/%-d/%y %-I:%M %p')
 
-    totals = soup.find_all(attrs={'class':'count'})
-    newCasesData = soup.find_all(attrs={'class':'new-cases'})
+    totals = soup.findAll(attrs={'class':'count'})
+    newCasesData = soup.findAll(attrs={'class':'new-cases'})
 
     newCasesText = newCasesData[0].text
     newCases = newCasesText[:len(newCasesText)-11]
@@ -43,33 +43,82 @@ def scraper():
     baCasesToday = int(''.join(bayAreaCases.split(',')))
     baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
 
+    r3 = requests.get('https://www.worldometers.info/coronavirus/')
+    page3 = r3.text
+    soup3 = bs(page3, 'lxml')
+
+    spanTags = soup3.findAll('span')
+    totalsWorld = soup3.findAll('div', attrs={'class':'number-table-main'})
+
+    worldCases = spanTags[4].text
+    worldDeaths = spanTags[5].text
+    worldRecoveries = spanTags[6].text
+    mildCasesWorld = spanTags[8].text
+    criticalCasesWorld = spanTags[9].text
+    recoveredWorld = spanTags[11].text
+    currentWorldCases = totalsWorld[0].text
+    currentWorldClosed = totalsWorld[1].text
+
+    worldCasesToday = int(''.join(worldCases.split(',')))
+    worldDeathsToday = int(''.join(worldDeaths.split(',')))
+    worldRecoveriesToday = int(''.join(worldRecoveries.split(',')))
+
     if os.path.isfile(jsonFilePath) == False:
 
-        jsonData = {'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday}
+        jsonData = {'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday, 'worldCases':worldCasesToday, 'worldDeaths':worldDeathsToday, 'worldRecoveries':worldRecoveriesToday}
 
-        with open('past.json', 'w') as jsonFile:
+        with open(jsonFilePath, 'w') as jsonFile:
             json.dump(jsonData, jsonFile)
 
         calDifferenceCases = 'Unknown'
         calDifferenceDeaths = 'Unknown'
         baDifferenceCases = 'Unknown'
         baDifferencesDeaths = 'Unknown'
+        wDifferenceCases = 'Unknown'
+        wDifferenceDeath = 'Unknown'
+        wDifferenceRecoveries = 'Unknown'
 
     else:
 
-        with open('past.json', 'r') as jsonFile:
+        with open(jsonFilePath, 'r') as jsonFile:
             jsonData = json.load(jsonFile)
 
         calDifferenceCases = '{:,}'.format(calCasesToday - jsonData['calCasesToday'])
         calDifferenceDeaths = '{:,}'.format(calDeathsToday - jsonData['calDeathsToday'])
         baDifferenceCases = '{:,}'.format(baCasesToday - jsonData['baCasesToday'])
         baDifferencesDeaths = '{:,}'.format(baDeathsToday - jsonData['baDeathsToday'])
+        wDifferenceCases = '{:,}'.format(worldCasesToday - int(jsonData['worldCases']))
+        wDifferenceDeath = '{:,}'.format(worldDeathsToday - int(jsonData['worldDeaths']))
+        wDifferenceRecoveries = '{:,}'.format(worldRecoveriesToday - int(jsonData['worldRecoveries']))
 
+        jsonData['calCasesToday'] = calCasesToday
+        jsonData['calDeathsToday'] = calDeathsToday
+        jsonData['baCasesToday'] = baCasesToday
+        jsonData['baDeathsToday'] = baDeathsToday
+        jsonData['worldCases'] = worldCasesToday
+        jsonData['worldDeaths'] = worldDeathsToday
+        jsonData['worldRecoveries'] = worldRecoveriesToday
+
+        with open(jsonFilePath, 'w') as jsonFile:
+            json.dump(jsonData, jsonFile)
 
     emailMessage = (f'''
 Hello,
 
 Update: {nowFormatted}
+
+
+World Data from WorldOMeter:
+
+Total cases: {worldCases}
+Total current cases: {currentWorldCases}
+New cases: {wDifferenceCases}
+
+Total closed cases: {currentWorldClosed}
+Total deaths: {worldDeaths}
+New deaths: {wDifferenceDeath}
+Total Recoveries: {worldRecoveries}
+New Recoveries: {wDifferenceRecoveries}
 
 
 United States Data from CDC:
@@ -108,6 +157,16 @@ New deaths: {baDifferencesDeaths}
     <body>
         <p>Hello,</p>
         <p>Update: {nowFormatted}</p>
+        <br>
+        <h2>World Data from <a href="https://www.worldometers.info/coronavirus/" target="_blank">WorldOMeter</a>:</h2>
+        <p>Total cases: {worldCases}</p>
+        <p>Total current cases: {currentWorldCases}</p>
+        <p>New cases: {wDifferenceCases}</p>
+        <p>Total closed cases: {currentWorldClosed}</p>
+        <p>Total deaths: {worldDeaths}</p>
+        <p>New deaths: {wDifferenceDeath}</p>
+        <p>Total Recoveries: {worldRecoveries}</p>
+        <p>New Recoveries: {wDifferenceRecoveries}</p>
         <br>
         <h2>United States Data from <a href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html" target="_blank">CDC</a>:</h2>
         <p>Total cases: {totals[0].text}</p>
