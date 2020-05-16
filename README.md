@@ -64,6 +64,12 @@ pip3 install pystarter
 
 New Example:
 
+Image:
+
+![Image example of email](example.png)
+
+Text:
+
 ```
 Hello,
 
