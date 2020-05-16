@@ -43,7 +43,7 @@ def scraper():
     baCasesToday = int(''.join(bayAreaCases.split(',')))
     baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
 
-    if os.path.isfile('past.json') == False:
+    if os.path.isfile(jsonFilePath) == False:
 
         jsonData = {'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday}
 
