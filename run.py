@@ -90,7 +90,7 @@ Total deaths: {californiaDeaths}
 New deaths: {calDifferenceDeaths}
 
 
-San Francisco from SF Chronicle:
+Bay Area from SF Chronicle:
 
 Total cases: {bayAreaCases}
 New cases: {baDifferenceCases}
