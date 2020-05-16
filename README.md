@@ -73,34 +73,37 @@ Text:
 ```
 Hello,
 
-Update: 5/14/20 10:49 PM
+Update: 5/15/20 8:49 PM
 
 
 United States Data from CDC:
 
-Total cases: 1,384,930
-New cases: 20,869
+Total cases: 1,412,121
+New cases: 27,191
 
-Total deaths: 83,947
-New deaths: 1,701
+Total deaths: 85,990
+New deaths: 2,043
 
 
 California Data from SF Chronicle:
 
-Total cases: 74,806
-New cases: 2,035
+Total cases: 76,845
+New cases: 2039
 
-Total deaths: 3,049
-New deaths: 35
+Total deaths: 3,154
+New deaths: 105
 
 
 San Francisco from SF Chronicle:
 
-Total cases: 10,352
-New cases: 321
+Total cases: 10,515
+New cases: 10163
 
-Total deaths: 381
-New deaths: 10
+Total deaths: 387
+New deaths: 6
+
+
+- COVID-19 Reporter
 ```
 
 Old Example:
