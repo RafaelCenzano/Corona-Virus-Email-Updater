@@ -88,7 +88,7 @@ New deaths: 2,043
 California Data from SF Chronicle:
 
 Total cases: 76,845
-New cases: 2039
+New cases: 2,039
 
 Total deaths: 3,154
 New deaths: 105
@@ -97,7 +97,7 @@ New deaths: 105
 San Francisco from SF Chronicle:
 
 Total cases: 10,515
-New cases: 10163
+New cases: 10,163
 
 Total deaths: 387
 New deaths: 6
