@@ -60,13 +60,13 @@ def scraper():
         with open('past.json', 'r') as jsonFile:
             jsonData = json.load(jsonFile)
 
-        calDifferenceCases = calCasesToday - jsonData['calCasesToday']
-        calDifferenceDeaths = calDeathsToday - jsonData['calDeathsToday']
-        baDifferenceCases = baCasesToday - jsonData['baCasesToday']
-        baDifferencesDeaths = baDeathsToday - jsonData['baDeathsToday']
+        calDifferenceCases = '{:,}'.format(calCasesToday - jsonData['calCasesToday'])
+        calDifferenceDeaths = '{:,}'.format(calDeathsToday - jsonData['calDeathsToday'])
+        baDifferenceCases = '{:,}'.format(baCasesToday - jsonData['baCasesToday'])
+        baDifferencesDeaths = '{:,}'.format(baDeathsToday - jsonData['baDeathsToday'])
 
 
-    email_message = (f'''
+    emailMessage = (f'''
 Hello,
 
 Update: {nowFormatted}
@@ -99,15 +99,49 @@ Total deaths: {bayAreaDeaths}
 New deaths: {baDifferencesDeaths}
 
 
-- COVID-19 Reporter''')
+- COVID-19 Reporter
+(Created by Rafael Cenzano)''')
+
+    emailMessageHtml = (f'''
+<html>
+    <head></head>
+    <body>
+        <p>Hello,</p>
+        <p>Update: {nowFormatted}</p>
+        <br>
+        <h2>United States Data from <a href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html" target="_blank">CDC</a>:</h2>
+        <p>Total cases: {totals[0].text}</p>
+        <p>New cases: {newCases}</p>
+        <p>Total deaths: {totals[1].text}</p>
+        <p>New deaths: {newDeaths}</p>
+        <br>
+        <h2>California Data from <a href="https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php" target="_blank">SF Chronicle</a>:</h2>
+        <p>Total cases: {californiaCases}</p>
+        <p>New cases: {calDifferenceCases}</p>
+        <p>Total deaths: {californiaDeaths}</p>
+        <p>New deaths: {calDifferenceDeaths}</p>
+        <br>
+        <h2>Bay Area from <a href="https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php" target="_blank">SF Chronicle</a>:</h2>
+        <p>Total cases: {bayAreaCases}</p>
+        <p>New cases: {baDifferenceCases}</p>
+        <p>Total deaths: {bayAreaDeaths}</p>
+        <p>New deaths: {baDifferencesDeaths}</p>
+        <br>
+        <h4>- COVID-19 Reporter</h4>
+        <p>(Created by <a href="https://rafaelcenzano.com" target="_blank">Rafael Cenzano</a>)</p>
+    </body>
+</html>''')
 
     for recieverEmail in recieverEmails:
 
-        msg = MIMEMultipart()
+        msg = MIMEMultipart('alternative')
         msg['From'] = f'COVID-19 Reporter <{senderEmail}>'
         msg['To'] = recieverEmail
-        msg['Subject'] = f'Update: {nowFormatted}'
-        msg.attach(MIMEText(email_message,'plain'))
+        msg['Subject'] = f'CoronaVirus update: {nowFormatted}'
+        part1 = MIMEText(emailMessage, 'plain')
+        part2 = MIMEText(emailMessageHtml, 'html')
+        msg.attach(part1)
+        msg.attach(part2)
         message = msg.as_string()
 
         smtp_server = SMTP('smtp.gmail.com', 587)
