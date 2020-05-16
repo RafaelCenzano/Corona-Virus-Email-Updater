@@ -9,9 +9,12 @@ CDC stopped updating the page
 create a secret.py with these variables:
 
 ```
+import os
+
 senderEmail = 'youremail@gmail.com' # has to be gmail
 senderPassword = 'you app password'
 recieverEmails = ['contact@domain.com', 'other@domain.com']
+jsonFilePath ='/' + os.path.join('Users','jimdoe','Documents','Corona-Virus-Email-Updater','past.json')
 ```
 
 [Use a virtualenv to create an isolated enviorment](https://virtualenv.pypa.io/en/latest/)
