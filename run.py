@@ -110,7 +110,7 @@ Update: {nowFormatted}
 
 World Data from WorldOMeter:
 
-Total cases: {worldCases}
+Total cases since outbreak: {worldCases}
 Total current cases: {currentWorldCases}
 New cases: {wDifferenceCases}
 
@@ -159,7 +159,7 @@ New deaths: {baDifferencesDeaths}
         <p>Update: {nowFormatted}</p>
         <br>
         <h2>World Data from <a href="https://www.worldometers.info/coronavirus/" target="_blank">WorldOMeter</a>:</h2>
-        <p>Total cases: {worldCases}</p>
+        <p>Total cases since outbreak: {worldCases}</p>
         <p>Total current cases: {currentWorldCases}</p>
         <p>New cases: {wDifferenceCases}</p>
         <p>Total closed cases: {currentWorldClosed}</p>
