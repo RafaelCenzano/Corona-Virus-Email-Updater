@@ -30,7 +30,7 @@ def scraper():
 
     pTags = soup2.findAll('p')
 
-    californiaParts = pTags[3].text[3:].split()
+    californiaParts = pTags[3].text[2:].split()
     californiaCases = californiaParts[0]
     californiaDeaths = californiaParts[len(californiaParts)-2]
 
