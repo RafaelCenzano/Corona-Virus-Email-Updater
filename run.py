@@ -55,11 +55,13 @@ def scraper():
         baCasesToday = int(''.join(bayAreaCases.split(',')))
     except:
         baCasesToday = jsonData['baCasesToday']
+        bayAreaCases = jsonData['baCasesToday']
 
     try:
         baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
     except:
         baDeathsToday = jsonData['baDeathsToday']
+        bayAreaDeaths = jsonData['baDeathsToday']
 
     r3 = requests.get('https://www.worldometers.info/coronavirus/')
     page3 = r3.text
