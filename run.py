@@ -38,10 +38,28 @@ def scraper():
     bayAreaCases = bayAreaParts[0]
     bayAreaDeaths = bayAreaParts[len(bayAreaParts)-2]
 
-    calCasesToday = int(''.join(californiaCases.split(',')))
-    calDeathsToday = int(''.join(californiaDeaths.split(',')))
-    baCasesToday = int(''.join(bayAreaCases.split(',')))
-    baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
+    with open(jsonFilePath, 'r') as jsonFile:
+        jsonData = json.load(jsonFile)
+
+    try:
+        calCasesToday = int(''.join(californiaCases.split(',')))
+    except:
+        calCasesToday = jsonData['calCasesToday']
+
+    try:
+        calDeathsToday = int(''.join(californiaDeaths.split(',')))
+    except:
+        calDeathsToday = jsonData['calDeathsToday']
+
+    try:
+        baCasesToday = int(''.join(bayAreaCases.split(',')))
+    except:
+        baCasesToday = jsonData['baCasesToday']
+
+    try:
+        baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
+    except:
+        baDeathsToday = jsonData['baDeathsToday']
 
     r3 = requests.get('https://www.worldometers.info/coronavirus/')
     page3 = r3.text
