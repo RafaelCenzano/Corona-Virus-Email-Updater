@@ -8,6 +8,16 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+def maths(num1, num2, num3=None):
+    num1 = int(''.join(num1.split(',')))
+    num2 = int(''.join(num2.split(',')))
+    if num3:
+        num3 = int(''.join(num3.split(',')))
+        num = '{:,}'.format(num1 - num2 - num3)
+    else:
+        num = '{:,}'.format(num1 - num2)
+    return num
+
 
 def scraper():
     r = requests.get('https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html')
@@ -39,29 +49,29 @@ def scraper():
     bayAreaDeaths = bayAreaParts[len(bayAreaParts)-2]
 
     with open(jsonFilePath, 'r') as jsonFile:
-        jsonData = json.load(jsonFile)
+        jsonDataRead = json.load(jsonFile)
 
     try:
         calCasesToday = int(''.join(californiaCases.split(',')))
     except:
-        calCasesToday = jsonData['calCasesToday']
+        calCasesToday = jsonDataRead['calCasesToday']
 
     try:
         calDeathsToday = int(''.join(californiaDeaths.split(',')))
     except:
-        calDeathsToday = jsonData['calDeathsToday']
+        calDeathsToday = jsonDataRead['calDeathsToday']
 
     try:
         baCasesToday = int(''.join(bayAreaCases.split(',')))
     except:
-        baCasesToday = jsonData['baCasesToday']
-        bayAreaCases = jsonData['baCasesToday']
+        baCasesToday = jsonDataRead['baCasesToday']
+        bayAreaCases = jsonDataRead['baCasesToday']
 
     try:
         baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
     except:
-        baDeathsToday = jsonData['baDeathsToday']
-        bayAreaDeaths = jsonData['baDeathsToday']
+        baDeathsToday = jsonDataRead['baDeathsToday']
+        bayAreaDeaths = jsonDataRead['baDeathsToday']
 
     r3 = requests.get('https://www.worldometers.info/coronavirus/')
     page3 = r3.text
@@ -85,7 +95,7 @@ def scraper():
 
     if os.path.isfile(jsonFilePath) == False:
 
-        jsonData = {'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday, 'worldCases':worldCasesToday, 'worldDeaths':worldDeathsToday, 'worldRecoveries':worldRecoveriesToday}
+        jsonData = {'past':{'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday, 'worldCases':worldCasesToday, 'worldDeaths':worldDeathsToday, 'worldRecoveries':worldRecoveriesToday},'past2':{'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday, 'worldCases':worldCasesToday, 'worldDeaths':worldDeathsToday, 'worldRecoveries':worldRecoveriesToday}}
 
         with open(jsonFilePath, 'w') as jsonFile:
             json.dump(jsonData, jsonFile)
@@ -98,10 +108,21 @@ def scraper():
         wDifferenceDeath = 'Unknown'
         wDifferenceRecoveries = 'Unknown'
 
+        calDifferenceCases1 = 'Unknown'
+        calDifferenceDeaths1 = 'Unknown'
+        baDifferenceCases1 = 'Unknown'
+        baDifferencesDeaths1 = 'Unknown'
+        wDifferenceCases1 = 'Unknown'
+        wDifferenceDeath1 = 'Unknown'
+        wDifferenceRecoveries1 = 'Unknown'
+
     else:
 
         with open(jsonFilePath, 'r') as jsonFile:
-            jsonData = json.load(jsonFile)
+            jsonDataFile = json.load(jsonFile)
+
+        jsonData = jsonDataFile['past']
+        jsonDataOld = jsonDataFile['past2']
 
         calDifferenceCases = '{:,}'.format(calCasesToday - jsonData['calCasesToday'])
         calDifferenceDeaths = '{:,}'.format(calDeathsToday - jsonData['calDeathsToday'])
@@ -111,6 +132,16 @@ def scraper():
         wDifferenceDeath = '{:,}'.format(worldDeathsToday - int(jsonData['worldDeaths']))
         wDifferenceRecoveries = '{:,}'.format(worldRecoveriesToday - int(jsonData['worldRecoveries']))
 
+        calDifferenceCases1 = '{:,}'.format(calCasesToday - jsonDataOld['calCasesToday'])
+        calDifferenceDeaths1 = '{:,}'.format(calDeathsToday - jsonDataOld['calDeathsToday'])
+        baDifferenceCases1 = '{:,}'.format(baCasesToday - jsonDataOld['baCasesToday'])
+        baDifferencesDeaths1 = '{:,}'.format(baDeathsToday - jsonDataOld['baDeathsToday'])
+        wDifferenceCases1 = '{:,}'.format(worldCasesToday - int(jsonDataOld['worldCases']))
+        wDifferenceDeath1 = '{:,}'.format(worldDeathsToday - int(jsonDataOld['worldDeaths']))
+        wDifferenceRecoveries1 = '{:,}'.format(worldRecoveriesToday - int(jsonDataOld['worldRecoveries']))
+
+        jsonDataFile['past2'] = jsonData
+
         jsonData['calCasesToday'] = calCasesToday
         jsonData['calDeathsToday'] = calDeathsToday
         jsonData['baCasesToday'] = baCasesToday
@@ -119,8 +150,10 @@ def scraper():
         jsonData['worldDeaths'] = worldDeathsToday
         jsonData['worldRecoveries'] = worldRecoveriesToday
 
+        jsonDataFile['past'] = jsonData
+
         with open(jsonFilePath, 'w') as jsonFile:
-            json.dump(jsonData, jsonFile)
+            json.dump(jsonDataFile, jsonFile)
 
     emailMessage = (f'''
 Hello,
@@ -130,15 +163,15 @@ Update: {nowFormatted}
 
 World Data from WorldOMeter:
 
-Total cases since outbreak: {worldCases}
+Total cases since outbreak: {worldCases}, Yesterday: {maths(worldCases,wDifferenceCases)}
 Total current cases: {currentWorldCases}
-New cases: {wDifferenceCases}
+New cases: {wDifferenceCases}, Yesterday: {wDifferenceCases1}
 
-Total closed cases: {currentWorldClosed}
-Total deaths: {worldDeaths}
-New deaths: {wDifferenceDeath}
-Total Recoveries: {worldRecoveries}
-New Recoveries: {wDifferenceRecoveries}
+Total closed cases: {currentWorldClosed}, Yesterday: {maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}
+Total deaths: {worldDeaths}, Yesterday: {maths(worldDeaths,wDifferenceDeath)}
+New deaths: {wDifferenceDeath}, Yesterday: {wDifferenceDeath1}
+Total Recoveries: {worldRecoveries}, Yesterday: {maths(worldRecoveries,wDifferenceRecoveries)}
+New Recoveries: {wDifferenceRecoveries}, Yesterday: {wDifferenceRecoveries1}
 
 
 United States Data from CDC:
@@ -152,20 +185,20 @@ New deaths: {newDeaths}
 
 California Data from SF Chronicle:
 
-Total cases: {californiaCases}
-New cases: {calDifferenceCases}
+Total cases: {californiaCases}, Yesterday: {maths(californiaCases,calDifferenceCases)}
+New cases: {calDifferenceCases}, Yesterday: {calDifferenceCases1}
 
-Total deaths: {californiaDeaths}
-New deaths: {calDifferenceDeaths}
+Total deaths: {californiaDeaths}, Yesterday: {maths(californiaDeaths,calDifferenceDeaths)}
+New deaths: {calDifferenceDeaths}, Yesterday: {calDifferenceDeaths1}
 
 
 Bay Area from SF Chronicle:
 
-Total cases: {bayAreaCases}
-New cases: {baDifferenceCases}
+Total cases: {bayAreaCases}, Yesterday: {maths(bayAreaCases,baDifferenceCases)}
+New cases: {baDifferenceCases}, Yesterday: {baDifferenceCases1}
 
-Total deaths: {bayAreaDeaths}
-New deaths: {baDifferencesDeaths}
+Total deaths: {bayAreaDeaths}, Yesterday: {maths(bayAreaDeaths,baDifferencesDeaths)}
+New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
 
 
 - COVID-19 Reporter
@@ -179,14 +212,14 @@ New deaths: {baDifferencesDeaths}
         <p>Update: {nowFormatted}</p>
         <br>
         <h2>World Data from <a href="https://www.worldometers.info/coronavirus/" target="_blank">WorldOMeter</a>:</h2>
-        <p>Total cases since outbreak: {worldCases}</p>
+        <p>Total cases since outbreak: {worldCases}, Yesterday: {maths(worldCases,wDifferenceCases)}</p>
         <p>Total current cases: {currentWorldCases}</p>
-        <p>New cases: {wDifferenceCases}</p>
-        <p>Total closed cases: {currentWorldClosed}</p>
-        <p>Total deaths: {worldDeaths}</p>
-        <p>New deaths: {wDifferenceDeath}</p>
-        <p>Total Recoveries: {worldRecoveries}</p>
-        <p>New Recoveries: {wDifferenceRecoveries}</p>
+        <p>New cases: {wDifferenceCases}, Yesterday: {wDifferenceCases1}</p>
+        <p>Total closed cases: {currentWorldClosed}, Yesterday: {maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}</p>
+        <p>Total deaths: {worldDeaths}, Yesterday: {maths(worldDeaths,wDifferenceDeath)}</p>
+        <p>New deaths: {wDifferenceDeath}, Yesterday: {wDifferenceDeath1}</p>
+        <p>Total Recoveries: {worldRecoveries}, Yesterday: {maths(worldRecoveries,wDifferenceRecoveries)}</p>
+        <p>New Recoveries: {wDifferenceRecoveries}, Yesterday: {wDifferenceRecoveries1}</p>
         <br>
         <h2>United States Data from <a href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html" target="_blank">CDC</a>:</h2>
         <p>Total cases: {totals[0].text}</p>
@@ -195,16 +228,16 @@ New deaths: {baDifferencesDeaths}
         <p>New deaths: {newDeaths}</p>
         <br>
         <h2>California Data from <a href="https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php" target="_blank">SF Chronicle</a>:</h2>
-        <p>Total cases: {californiaCases}</p>
-        <p>New cases: {calDifferenceCases}</p>
-        <p>Total deaths: {californiaDeaths}</p>
-        <p>New deaths: {calDifferenceDeaths}</p>
+        <p>Total cases: {californiaCases}, Yesterday: {maths(californiaCases,calDifferenceCases)}</p>
+        <p>New cases: {calDifferenceCases}, Yesterday: {calDifferenceCases1}</p>
+        <p>Total deaths: {californiaDeaths}, Yesterday: {maths(californiaDeaths,calDifferenceDeaths)}</p>
+        <p>New deaths: {calDifferenceDeaths}, Yesterday: {calDifferenceDeaths1}</p>
         <br>
         <h2>Bay Area from <a href="https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php" target="_blank">SF Chronicle</a>:</h2>
-        <p>Total cases: {bayAreaCases}</p>
-        <p>New cases: {baDifferenceCases}</p>
-        <p>Total deaths: {bayAreaDeaths}</p>
-        <p>New deaths: {baDifferencesDeaths}</p>
+        <p>Total cases: {bayAreaCases}, Yesterday: {maths(bayAreaCases,baDifferenceCases)}</p>
+        <p>New cases: {baDifferenceCases}, Yesterday: {baDifferenceCases1}</p>
+        <p>Total deaths: {bayAreaDeaths}, Yesterday: {maths(bayAreaDeaths,baDifferencesDeaths)}</p>
+        <p>New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}</p>
         <br>
         <h4>- COVID-19 Reporter</h4>
         <p>(Created by <a href="https://rafaelcenzano.com" target="_blank">Rafael Cenzano</a>)</p>
