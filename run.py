@@ -121,36 +121,31 @@ def scraper():
         with open(jsonFilePath, 'r') as jsonFile:
             jsonDataFile = json.load(jsonFile)
 
-        jsonData = jsonDataFile['past']
-        jsonDataOld = jsonDataFile['past2']
+        calDifferenceCases = '{:,}'.format(calCasesToday - jsonDataFile['past']['calCasesToday'])
+        calDifferenceDeaths = '{:,}'.format(calDeathsToday - jsonDataFile['past']['calDeathsToday'])
+        baDifferenceCases = '{:,}'.format(baCasesToday - jsonDataFile['past']['baCasesToday'])
+        baDifferencesDeaths = '{:,}'.format(baDeathsToday - jsonDataFile['past']['baDeathsToday'])
+        wDifferenceCases = '{:,}'.format(worldCasesToday - int(jsonDataFile['past']['worldCases']))
+        wDifferenceDeath = '{:,}'.format(worldDeathsToday - int(jsonDataFile['past']['worldDeaths']))
+        wDifferenceRecoveries = '{:,}'.format(worldRecoveriesToday - int(jsonDataFile['past']['worldRecoveries']))
 
-        calDifferenceCases = '{:,}'.format(calCasesToday - jsonData['calCasesToday'])
-        calDifferenceDeaths = '{:,}'.format(calDeathsToday - jsonData['calDeathsToday'])
-        baDifferenceCases = '{:,}'.format(baCasesToday - jsonData['baCasesToday'])
-        baDifferencesDeaths = '{:,}'.format(baDeathsToday - jsonData['baDeathsToday'])
-        wDifferenceCases = '{:,}'.format(worldCasesToday - int(jsonData['worldCases']))
-        wDifferenceDeath = '{:,}'.format(worldDeathsToday - int(jsonData['worldDeaths']))
-        wDifferenceRecoveries = '{:,}'.format(worldRecoveriesToday - int(jsonData['worldRecoveries']))
+        calDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['calCasesToday'] - jsonDataFile['past2']['calCasesToday'])
+        calDifferenceDeaths1 = '{:,}'.format(jsonDataFile['past']['calDeathsToday'] - jsonDataFile['past2']['calDeathsToday'])
+        baDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['baCasesToday'] - jsonDataFile['past2']['baCasesToday'])
+        baDifferencesDeaths1 = '{:,}'.format(jsonDataFile['past']['baDeathsToday'] - jsonDataFile['past2']['baDeathsToday'])
+        wDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['worldCasesToday'] - int(jsonDataFile['past2']['worldCases']))
+        wDifferenceDeath1 = '{:,}'.format(jsonDataFile['past']['worldDeathsToday'] - int(jsonDataFile['past2']['worldDeaths']))
+        wDifferenceRecoveries1 = '{:,}'.format(jsonDataFile['past']['worldRecoveriesToday'] - int(jsonDataFile['past2']['worldRecoveries']))
 
-        calDifferenceCases1 = '{:,}'.format(calCasesToday - jsonDataOld['calCasesToday'])
-        calDifferenceDeaths1 = '{:,}'.format(calDeathsToday - jsonDataOld['calDeathsToday'])
-        baDifferenceCases1 = '{:,}'.format(baCasesToday - jsonDataOld['baCasesToday'])
-        baDifferencesDeaths1 = '{:,}'.format(baDeathsToday - jsonDataOld['baDeathsToday'])
-        wDifferenceCases1 = '{:,}'.format(worldCasesToday - int(jsonDataOld['worldCases']))
-        wDifferenceDeath1 = '{:,}'.format(worldDeathsToday - int(jsonDataOld['worldDeaths']))
-        wDifferenceRecoveries1 = '{:,}'.format(worldRecoveriesToday - int(jsonDataOld['worldRecoveries']))
+        jsonDataFile['past2'] = jsonDataFile['past']
 
-        jsonDataFile['past2'] = jsonData
-
-        jsonData['calCasesToday'] = calCasesToday
-        jsonData['calDeathsToday'] = calDeathsToday
-        jsonData['baCasesToday'] = baCasesToday
-        jsonData['baDeathsToday'] = baDeathsToday
-        jsonData['worldCases'] = worldCasesToday
-        jsonData['worldDeaths'] = worldDeathsToday
-        jsonData['worldRecoveries'] = worldRecoveriesToday
-
-        jsonDataFile['past'] = jsonData
+        jsonDataFile['past']['calCasesToday'] = calCasesToday
+        jsonDataFile['past']['calDeathsToday'] = calDeathsToday
+        jsonDataFile['past']['baCasesToday'] = baCasesToday
+        jsonDataFile['past']['baDeathsToday'] = baDeathsToday
+        jsonDataFile['past']['worldCases'] = worldCasesToday
+        jsonDataFile['past']['worldDeaths'] = worldDeathsToday
+        jsonDataFile['past']['worldRecoveries'] = worldRecoveriesToday
 
         with open(jsonFilePath, 'w') as jsonFile:
             json.dump(jsonDataFile, jsonFile)
