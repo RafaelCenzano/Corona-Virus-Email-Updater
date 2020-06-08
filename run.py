@@ -133,11 +133,17 @@ def scraper():
         calDifferenceDeaths1 = '{:,}'.format(jsonDataFile['past']['calDeathsToday'] - jsonDataFile['past2']['calDeathsToday'])
         baDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['baCasesToday'] - jsonDataFile['past2']['baCasesToday'])
         baDifferencesDeaths1 = '{:,}'.format(jsonDataFile['past']['baDeathsToday'] - jsonDataFile['past2']['baDeathsToday'])
-        wDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['worldCasesToday'] - int(jsonDataFile['past2']['worldCases']))
-        wDifferenceDeath1 = '{:,}'.format(jsonDataFile['past']['worldDeathsToday'] - int(jsonDataFile['past2']['worldDeaths']))
-        wDifferenceRecoveries1 = '{:,}'.format(jsonDataFile['past']['worldRecoveriesToday'] - int(jsonDataFile['past2']['worldRecoveries']))
+        wDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['worldCases'] - int(jsonDataFile['past2']['worldCases']))
+        wDifferenceDeath1 = '{:,}'.format(jsonDataFile['past']['worldDeaths'] - int(jsonDataFile['past2']['worldDeaths']))
+        wDifferenceRecoveries1 = '{:,}'.format(jsonDataFile['past']['worldRecoveries'] - int(jsonDataFile['past2']['worldRecoveries']))
 
-        jsonDataFile['past2'] = jsonDataFile['past']
+        jsonDataFile['past2']['calCasesToday'] = jsonDataFile['past']['calCasesToday']
+        jsonDataFile['past2']['calDeathsToday'] = jsonDataFile['past']['calDeathsToday']
+        jsonDataFile['past2']['baCasesToday'] = jsonDataFile['past']['baCasesToday']
+        jsonDataFile['past2']['baDeathsToday'] = jsonDataFile['past']['baDeathsToday']
+        jsonDataFile['past2']['worldCases'] = jsonDataFile['past']['worldCases']
+        jsonDataFile['past2']['worldDeaths'] = jsonDataFile['past']['worldDeaths']
+        jsonDataFile['past2']['worldRecoveries'] = jsonDataFile['past']['worldRecoveries']
 
         jsonDataFile['past']['calCasesToday'] = calCasesToday
         jsonDataFile['past']['calDeathsToday'] = calDeathsToday
