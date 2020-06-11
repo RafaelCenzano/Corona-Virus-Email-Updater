@@ -8,6 +8,7 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+
 def maths(num1, num2, num3=None):
     num1 = int(''.join(num1.split(',')))
     num2 = int(''.join(num2.split(',')))
@@ -20,21 +21,23 @@ def maths(num1, num2, num3=None):
 
 
 def scraper():
-    r = requests.get('https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html')
+    r = requests.get(
+        'https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html')
     page = r.text
     soup = bs(page, 'lxml')
 
     nowFormatted = datetime.now().strftime('%-m/%-d/%y %-I:%M %p')
 
-    totals = soup.findAll(attrs={'class':'count'})
-    newCasesData = soup.findAll(attrs={'class':'new-cases'})
+    totals = soup.findAll(attrs={'class': 'count'})
+    newCasesData = soup.findAll(attrs={'class': 'new-cases'})
 
     newCasesText = newCasesData[0].text
-    newCases = newCasesText[:len(newCasesText)-11]
+    newCases = newCasesText[:len(newCasesText) - 11]
     newDeathsText = newCasesData[1].text
-    newDeaths = newDeathsText[:len(newDeathsText)-12]
+    newDeaths = newDeathsText[:len(newDeathsText) - 12]
 
-    r2 = requests.get('https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php')
+    r2 = requests.get(
+        'https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php')
     page2 = r2.text
     soup2 = bs(page2, 'lxml')
 
@@ -42,34 +45,34 @@ def scraper():
 
     californiaParts = pTags[3].text[2:].split()
     californiaCases = californiaParts[0]
-    californiaDeaths = californiaParts[len(californiaParts)-2]
+    californiaDeaths = californiaParts[len(californiaParts) - 2]
 
     bayAreaParts = pTags[4].text[2:].split()
     bayAreaCases = bayAreaParts[0]
-    bayAreaDeaths = bayAreaParts[len(bayAreaParts)-2]
+    bayAreaDeaths = bayAreaParts[len(bayAreaParts) - 2]
 
     with open(jsonFilePath, 'r') as jsonFile:
         jsonDataRead = json.load(jsonFile)
 
     try:
         calCasesToday = int(''.join(californiaCases.split(',')))
-    except:
+    except BaseException:
         calCasesToday = jsonDataRead['calCasesToday']
 
     try:
         calDeathsToday = int(''.join(californiaDeaths.split(',')))
-    except:
+    except BaseException:
         calDeathsToday = jsonDataRead['calDeathsToday']
 
     try:
         baCasesToday = int(''.join(bayAreaCases.split(',')))
-    except:
+    except BaseException:
         baCasesToday = jsonDataRead['baCasesToday']
         bayAreaCases = jsonDataRead['baCasesToday']
 
     try:
         baDeathsToday = int(''.join(bayAreaDeaths.split(',')))
-    except:
+    except BaseException:
         baDeathsToday = jsonDataRead['baDeathsToday']
         bayAreaDeaths = jsonDataRead['baDeathsToday']
 
@@ -78,7 +81,7 @@ def scraper():
     soup3 = bs(page3, 'lxml')
 
     spanTags = soup3.findAll('span')
-    totalsWorld = soup3.findAll('div', attrs={'class':'number-table-main'})
+    totalsWorld = soup3.findAll('div', attrs={'class': 'number-table-main'})
 
     worldCases = spanTags[4].text
     worldDeaths = spanTags[5].text
@@ -95,7 +98,29 @@ def scraper():
 
     if os.path.isfile(jsonFilePath) == False:
 
-        jsonData = {'past':{'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday, 'worldCases':worldCasesToday, 'worldDeaths':worldDeathsToday, 'worldRecoveries':worldRecoveriesToday},'past2':{'calCasesToday':calCasesToday, 'calDeathsToday':calDeathsToday, 'baCasesToday':baCasesToday, 'baDeathsToday':baDeathsToday, 'worldCases':worldCasesToday, 'worldDeaths':worldDeathsToday, 'worldRecoveries':worldRecoveriesToday}}
+        jsonData = {
+            'other': {
+                'currentWorldCases': currentWorldCases,
+                'uscases': totals[0].text,
+                'usnewcases': newCases,
+                'usenewdeaths': newDeaths,
+                'usdeaths': totals[1].text},
+            'past': {
+                'calCasesToday': calCasesToday,
+                'calDeathsToday': calDeathsToday,
+                'baCasesToday': baCasesToday,
+                'baDeathsToday': baDeathsToday,
+                'worldCases': worldCasesToday,
+                'worldDeaths': worldDeathsToday,
+                'worldRecoveries': worldRecoveriesToday},
+            'past2': {
+                'calCasesToday': calCasesToday,
+                'calDeathsToday': calDeathsToday,
+                'baCasesToday': baCasesToday,
+                'baDeathsToday': baDeathsToday,
+                'worldCases': worldCasesToday,
+                'worldDeaths': worldDeathsToday,
+                'worldRecoveries': worldRecoveriesToday}}
 
         with open(jsonFilePath, 'w') as jsonFile:
             json.dump(jsonData, jsonFile)
@@ -121,21 +146,45 @@ def scraper():
         with open(jsonFilePath, 'r') as jsonFile:
             jsonDataFile = json.load(jsonFile)
 
-        calDifferenceCases = '{:,}'.format(calCasesToday - jsonDataFile['past']['calCasesToday'])
-        calDifferenceDeaths = '{:,}'.format(calDeathsToday - jsonDataFile['past']['calDeathsToday'])
-        baDifferenceCases = '{:,}'.format(baCasesToday - jsonDataFile['past']['baCasesToday'])
-        baDifferencesDeaths = '{:,}'.format(baDeathsToday - jsonDataFile['past']['baDeathsToday'])
-        wDifferenceCases = '{:,}'.format(worldCasesToday - int(jsonDataFile['past']['worldCases']))
-        wDifferenceDeath = '{:,}'.format(worldDeathsToday - int(jsonDataFile['past']['worldDeaths']))
-        wDifferenceRecoveries = '{:,}'.format(worldRecoveriesToday - int(jsonDataFile['past']['worldRecoveries']))
+        calDifferenceCases = '{:,}'.format(
+            calCasesToday - jsonDataFile['past']['calCasesToday'])
+        calDifferenceDeaths = '{:,}'.format(
+            calDeathsToday - jsonDataFile['past']['calDeathsToday'])
+        baDifferenceCases = '{:,}'.format(
+            baCasesToday - jsonDataFile['past']['baCasesToday'])
+        baDifferencesDeaths = '{:,}'.format(
+            baDeathsToday - jsonDataFile['past']['baDeathsToday'])
+        wDifferenceCases = '{:,}'.format(
+            worldCasesToday - int(jsonDataFile['past']['worldCases']))
+        wDifferenceDeath = '{:,}'.format(
+            worldDeathsToday - int(jsonDataFile['past']['worldDeaths']))
+        wDifferenceRecoveries = '{:,}'.format(
+            worldRecoveriesToday - int(jsonDataFile['past']['worldRecoveries']))
 
-        calDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['calCasesToday'] - jsonDataFile['past2']['calCasesToday'])
-        calDifferenceDeaths1 = '{:,}'.format(jsonDataFile['past']['calDeathsToday'] - jsonDataFile['past2']['calDeathsToday'])
-        baDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['baCasesToday'] - jsonDataFile['past2']['baCasesToday'])
-        baDifferencesDeaths1 = '{:,}'.format(jsonDataFile['past']['baDeathsToday'] - jsonDataFile['past2']['baDeathsToday'])
-        wDifferenceCases1 = '{:,}'.format(jsonDataFile['past']['worldCases'] - int(jsonDataFile['past2']['worldCases']))
-        wDifferenceDeath1 = '{:,}'.format(jsonDataFile['past']['worldDeaths'] - int(jsonDataFile['past2']['worldDeaths']))
-        wDifferenceRecoveries1 = '{:,}'.format(jsonDataFile['past']['worldRecoveries'] - int(jsonDataFile['past2']['worldRecoveries']))
+        calDifferenceCases1 = '{:,}'.format(
+            jsonDataFile['past']['calCasesToday'] -
+            jsonDataFile['past2']['calCasesToday'])
+        calDifferenceDeaths1 = '{:,}'.format(
+            jsonDataFile['past']['calDeathsToday'] -
+            jsonDataFile['past2']['calDeathsToday'])
+        baDifferenceCases1 = '{:,}'.format(
+            jsonDataFile['past']['baCasesToday'] -
+            jsonDataFile['past2']['baCasesToday'])
+        baDifferencesDeaths1 = '{:,}'.format(
+            jsonDataFile['past']['baDeathsToday'] -
+            jsonDataFile['past2']['baDeathsToday'])
+        wDifferenceCases1 = '{:,}'.format(
+            jsonDataFile['past']['worldCases'] - int(jsonDataFile['past2']['worldCases']))
+        wDifferenceDeath1 = '{:,}'.format(
+            jsonDataFile['past']['worldDeaths'] - int(jsonDataFile['past2']['worldDeaths']))
+        wDifferenceRecoveries1 = '{:,}'.format(
+            jsonDataFile['past']['worldRecoveries'] - int(jsonDataFile['past2']['worldRecoveries']))
+
+        pastWorldCases = jsonDataFile['other']['currentWorldCases']
+        pastUsCases = jsonDataFile['other']['uscases']
+        pastUsNewCases = jsonDataFile['other']['usnewcases']
+        pastUsDeaths = jsonDataFile['other']['usenewdeaths']
+        pastUsNewDeaths = jsonDataFile['other']['usdeaths']
 
         jsonDataFile['past2']['calCasesToday'] = jsonDataFile['past']['calCasesToday']
         jsonDataFile['past2']['calDeathsToday'] = jsonDataFile['past']['calDeathsToday']
@@ -153,6 +202,13 @@ def scraper():
         jsonDataFile['past']['worldDeaths'] = worldDeathsToday
         jsonDataFile['past']['worldRecoveries'] = worldRecoveriesToday
 
+        jsonDataFile['other'] = {
+            'currentWorldCases': currentWorldCases,
+            'uscases': totals[0].text,
+            'usnewcases': newCases,
+            'usenewdeaths': newDeaths,
+            'usdeaths': totals[1].text}
+
         with open(jsonFilePath, 'w') as jsonFile:
             json.dump(jsonDataFile, jsonFile)
 
@@ -165,7 +221,7 @@ Update: {nowFormatted}
 World Data from WorldOMeter:
 
 Total cases since outbreak: {worldCases}, Yesterday: {maths(worldCases,wDifferenceCases)}
-Total current cases: {currentWorldCases}
+Total current cases: {currentWorldCases}, Yesterday: {pastWorldCases}
 New cases: {wDifferenceCases}, Yesterday: {wDifferenceCases1}
 
 Total closed cases: {currentWorldClosed}, Yesterday: {maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}
@@ -177,11 +233,11 @@ New Recoveries: {wDifferenceRecoveries}, Yesterday: {wDifferenceRecoveries1}
 
 United States Data from CDC:
 
-Total cases: {totals[0].text}
-New cases: {newCases}
+Total cases: {totals[0].text}, Yesterday: {pastUsCases}
+New cases: {newCases}, Yesterday: {pastUsNewCases}
 
-Total deaths: {totals[1].text}
-New deaths: {newDeaths}
+Total deaths: {totals[1].text}, Yesterday: {pastUsDeaths}
+New deaths: {newDeaths}, Yesterday: {pastUsNewDeaths}
 
 
 California Data from SF Chronicle:
@@ -214,7 +270,7 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
         <br>
         <h2>World Data from <a href="https://www.worldometers.info/coronavirus/" target="_blank">WorldOMeter</a>:</h2>
         <p>Total cases since outbreak: {worldCases}, Yesterday: {maths(worldCases,wDifferenceCases)}</p>
-        <p>Total current cases: {currentWorldCases}</p>
+        <p>Total current cases: {currentWorldCases}, Yesterday: {pastWorldCases}</p>
         <p>New cases: {wDifferenceCases}, Yesterday: {wDifferenceCases1}</p>
         <p>Total closed cases: {currentWorldClosed}, Yesterday: {maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}</p>
         <p>Total deaths: {worldDeaths}, Yesterday: {maths(worldDeaths,wDifferenceDeath)}</p>
@@ -223,10 +279,10 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
         <p>New Recoveries: {wDifferenceRecoveries}, Yesterday: {wDifferenceRecoveries1}</p>
         <br>
         <h2>United States Data from <a href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html" target="_blank">CDC</a>:</h2>
-        <p>Total cases: {totals[0].text}</p>
-        <p>New cases: {newCases}</p>
-        <p>Total deaths: {totals[1].text}</p>
-        <p>New deaths: {newDeaths}</p>
+        <p>Total cases: {totals[0].text}, Yesterday: {pastUsCases}</p>
+        <p>New cases: {newCases}, Yesterday: {pastUsNewCases}</p>
+        <p>Total deaths: {totals[1].text}, Yesterday: {pastUsDeaths}</p>
+        <p>New deaths: {newDeaths}, Yesterday: {pastUsNewDeaths}</p>
         <br>
         <h2>California Data from <a href="https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php" target="_blank">SF Chronicle</a>:</h2>
         <p>Total cases: {californiaCases}, Yesterday: {maths(californiaCases,calDifferenceCases)}</p>
@@ -266,6 +322,7 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
         smtp_server.quit()
 
         print(f'Email sent to {recieverEmail} @ {nowFormatted}')
+
 
 if __name__ == '__main__':
     scraper()
