@@ -183,8 +183,8 @@ def scraper():
         pastWorldCases = jsonDataFile['other']['currentWorldCases']
         pastUsCases = jsonDataFile['other']['uscases']
         pastUsNewCases = jsonDataFile['other']['usnewcases']
-        pastUsDeaths = jsonDataFile['other']['usenewdeaths']
-        pastUsNewDeaths = jsonDataFile['other']['usdeaths']
+        pastUsDeaths = jsonDataFile['other']['usdeaths']
+        pastUsNewDeaths = jsonDataFile['other']['usenewdeaths']
 
         jsonDataFile['past2']['calCasesToday'] = jsonDataFile['past']['calCasesToday']
         jsonDataFile['past2']['calDeathsToday'] = jsonDataFile['past']['calDeathsToday']
