@@ -276,49 +276,49 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
                 <td align="center" valign="top">Yesterday's Data</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Cases since outbreak</td>
-                <td align="left" valign"top">{worldCases}</td>
-                <td align="left" valign"top">{maths(worldCases,wDifferenceCases)}</td>
+                <td align="left" valign="top">Cases since outbreak</td>
+                <td align="left" valign="top">{worldCases}</td>
+                <td align="left" valign="top">{maths(worldCases,wDifferenceCases)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Current Cases</td>
-                <td align="left" valign"top">{currentWorldCases}</td>
-                <td align="left" valign"top">{pastWorldCases}</td>
+                <td align="left" valign="top">Current Cases</td>
+                <td align="left" valign="top">{currentWorldCases}</td>
+                <td align="left" valign="top">{pastWorldCases}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Cases</td>
-                <td align="left" valign"top">{wDifferenceCases}</td>
-                <td align="left" valign"top">{wDifferenceCases1}</td>
+                <td align="left" valign="top">New Cases</td>
+                <td align="left" valign="top">{wDifferenceCases}</td>
+                <td align="left" valign="top">{wDifferenceCases1}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Closed Cases</td>
-                <td align="left" valign"top">{currentWorldClosed}</td>
-                <td align="left" valign"top">{maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}</td>
+                <td align="left" valign="top">Closed Cases</td>
+                <td align="left" valign="top">{currentWorldClosed}</td>
+                <td align="left" valign="top">{maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Deaths</td>
-                <td align="left" valign"top">{worldDeaths}</td>
-                <td align="left" valign"top">{maths(worldDeaths,wDifferenceDeath)}</td>
+                <td align="left" valign="top">Total Deaths</td>
+                <td align="left" valign="top">{worldDeaths}</td>
+                <td align="left" valign="top">{maths(worldDeaths,wDifferenceDeath)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Deaths</td>
-                <td align="left" valign"top">{wDifferenceDeath}</td>
-                <td align="left" valign"top">{wDifferenceDeath1}</td>
+                <td align="left" valign="top">New Deaths</td>
+                <td align="left" valign="top">{wDifferenceDeath}</td>
+                <td align="left" valign="top">{wDifferenceDeath1}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Deaths</td>
-                <td align="left" valign"top">{wDifferenceDeath}</td>
-                <td align="left" valign"top">{wDifferenceDeath1}</td>
+                <td align="left" valign="top">New Deaths</td>
+                <td align="left" valign="top">{wDifferenceDeath}</td>
+                <td align="left" valign="top">{wDifferenceDeath1}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Recoveries</td>
-                <td align="left" valign"top">{worldRecoveries}</td>
-                <td align="left" valign"top">{maths(worldRecoveries,wDifferenceRecoveries)}</td>
+                <td align="left" valign="top">Total Recoveries</td>
+                <td align="left" valign="top">{worldRecoveries}</td>
+                <td align="left" valign="top">{maths(worldRecoveries,wDifferenceRecoveries)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Recoveries</td>
-                <td align="left" valign"top">{wDifferenceRecoveries}</td>
-                <td align="left" valign"top">{wDifferenceRecoveries1}</td>
+                <td align="left" valign="top">New Recoveries</td>
+                <td align="left" valign="top">{wDifferenceRecoveries}</td>
+                <td align="left" valign="top">{wDifferenceRecoveries1}</td>
             </tr>
         </table>
         <br>
@@ -330,24 +330,24 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
                 <td align="center" valign="top">Yesterday's Data</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Cases</td>
-                <td align="left" valign"top">{totals[0].text}</td>
-                <td align="left" valign"top">{pastUsCases}</td>
+                <td align="left" valign="top">Total Cases</td>
+                <td align="left" valign="top">{totals[0].text}</td>
+                <td align="left" valign="top">{pastUsCases}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Cases</td>
-                <td align="left" valign"top">{newCases}</td>
-                <td align="left" valign"top">{pastUsNewCases}</td>
+                <td align="left" valign="top">New Cases</td>
+                <td align="left" valign="top">{newCases}</td>
+                <td align="left" valign="top">{pastUsNewCases}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Deaths</td>
-                <td align="left" valign"top">{totals[1].text}</td>
-                <td align="left" valign"top">{pastUsDeaths}</td>
+                <td align="left" valign="top">Total Deaths</td>
+                <td align="left" valign="top">{totals[1].text}</td>
+                <td align="left" valign="top">{pastUsDeaths}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Deaths</td>
-                <td align="left" valign"top">{newDeaths}</td>
-                <td align="left" valign"top">{pastUsNewDeaths}</td>
+                <td align="left" valign="top">New Deaths</td>
+                <td align="left" valign="top">{newDeaths}</td>
+                <td align="left" valign="top">{pastUsNewDeaths}</td>
             </tr>
         </table>
         <br>
@@ -359,24 +359,24 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
                 <td align="center" valign="top">Yesterday's Data</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Cases</td>
-                <td align="left" valign"top">{californiaCases}</td>
-                <td align="left" valign"top">{maths(californiaCases,calDifferenceCases)}</td>
+                <td align="left" valign="top">Total Cases</td>
+                <td align="left" valign="top">{californiaCases}</td>
+                <td align="left" valign="top">{maths(californiaCases,calDifferenceCases)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Cases</td>
-                <td align="left" valign"top">{calDifferenceCases}</td>
-                <td align="left" valign"top">{calDifferenceCases1}</td>
+                <td align="left" valign="top">New Cases</td>
+                <td align="left" valign="top">{calDifferenceCases}</td>
+                <td align="left" valign="top">{calDifferenceCases1}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Deaths</td>
-                <td align="left" valign"top">{californiaDeaths}</td>
-                <td align="left" valign"top">{maths(californiaDeaths,calDifferenceDeaths)}</td>
+                <td align="left" valign="top">Total Deaths</td>
+                <td align="left" valign="top">{californiaDeaths}</td>
+                <td align="left" valign="top">{maths(californiaDeaths,calDifferenceDeaths)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Deaths</td>
-                <td align="left" valign"top">{calDifferenceDeaths}</td>
-                <td align="left" valign"top">{calDifferenceDeaths1}</td>
+                <td align="left" valign="top">New Deaths</td>
+                <td align="left" valign="top">{calDifferenceDeaths}</td>
+                <td align="left" valign="top">{calDifferenceDeaths1}</td>
             </tr>
         </table>
         <br>
@@ -388,24 +388,24 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
                 <td align="center" valign="top">Yesterday's Data</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Cases</td>
-                <td align="left" valign"top">{bayAreaCases}</td>
-                <td align="left" valign"top">{maths(bayAreaCases,baDifferenceCases)}</td>
+                <td align="left" valign="top">Total Cases</td>
+                <td align="left" valign="top">{bayAreaCases}</td>
+                <td align="left" valign="top">{maths(bayAreaCases,baDifferenceCases)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Cases</td>
-                <td align="left" valign"top">{baDifferenceCases}</td>
-                <td align="left" valign"top">{baDifferenceCases1}</td>
+                <td align="left" valign="top">New Cases</td>
+                <td align="left" valign="top">{baDifferenceCases}</td>
+                <td align="left" valign="top">{baDifferenceCases1}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">Total Deaths</td>
-                <td align="left" valign"top">{bayAreaDeaths}</td>
-                <td align="left" valign"top">{maths(bayAreaDeaths,baDifferencesDeaths)}</td>
+                <td align="left" valign="top">Total Deaths</td>
+                <td align="left" valign="top">{bayAreaDeaths}</td>
+                <td align="left" valign="top">{maths(bayAreaDeaths,baDifferencesDeaths)}</td>
             </tr>
             <tr>
-                <td align="left" valign"top">New Deaths</td>
-                <td align="left" valign"top">{baDifferencesDeaths}</td>
-                <td align="left" valign"top">{baDifferencesDeaths1}</td>
+                <td align="left" valign="top">New Deaths</td>
+                <td align="left" valign="top">{baDifferencesDeaths}</td>
+                <td align="left" valign="top">{baDifferencesDeaths1}</td>
             </tr>
         </table>
         <br>
