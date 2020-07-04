@@ -269,32 +269,145 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
         <p>Update: {nowFormatted}</p>
         <br>
         <h2>World Data from <a href="https://www.worldometers.info/coronavirus/" target="_blank">WorldOMeter</a>:</h2>
-        <p>Total cases since outbreak: {worldCases}, Yesterday: {maths(worldCases,wDifferenceCases)}</p>
-        <p>Total current cases: {currentWorldCases}, Yesterday: {pastWorldCases}</p>
-        <p>New cases: {wDifferenceCases}, Yesterday: {wDifferenceCases1}</p>
-        <p>Total closed cases: {currentWorldClosed}, Yesterday: {maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}</p>
-        <p>Total deaths: {worldDeaths}, Yesterday: {maths(worldDeaths,wDifferenceDeath)}</p>
-        <p>New deaths: {wDifferenceDeath}, Yesterday: {wDifferenceDeath1}</p>
-        <p>Total Recoveries: {worldRecoveries}, Yesterday: {maths(worldRecoveries,wDifferenceRecoveries)}</p>
-        <p>New Recoveries: {wDifferenceRecoveries}, Yesterday: {wDifferenceRecoveries1}</p>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+            <tr>
+                <td align="center" valign="top">Info</td>
+                <td align="center" valign="top">Today's Data</td>
+                <td align="center" valign="top">Yesterday's Data</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Cases since outbreak</td>
+                <td align="left" valign"top>{worldCases}</td>
+                <td align="left" valign"top>{maths(worldCases,wDifferenceCases)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Current Cases</td>
+                <td align="left" valign"top>{currentWorldCases}</td>
+                <td align="left" valign"top>{pastWorldCases}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Cases</td>
+                <td align="left" valign"top>{wDifferenceCases}</td>
+                <td align="left" valign"top>{wDifferenceCases1}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Closed Cases</td>
+                <td align="left" valign"top>{currentWorldClosed}</td>
+                <td align="left" valign"top>{maths(currentWorldClosed,wDifferenceDeath,wDifferenceRecoveries)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Deaths</td>
+                <td align="left" valign"top>{worldDeaths}</td>
+                <td align="left" valign"top>{maths(worldDeaths,wDifferenceDeath)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Deaths</td>
+                <td align="left" valign"top>{wDifferenceDeath}</td>
+                <td align="left" valign"top>{wDifferenceDeath1}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Deaths</td>
+                <td align="left" valign"top>{wDifferenceDeath}</td>
+                <td align="left" valign"top>{wDifferenceDeath1}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Recoveries</td>
+                <td align="left" valign"top>{worldRecoveries}</td>
+                <td align="left" valign"top>{maths(worldRecoveries,wDifferenceRecoveries)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Recoveries</td>
+                <td align="left" valign"top>{wDifferenceRecoveries}</td>
+                <td align="left" valign"top>{wDifferenceRecoveries1}</td>
+            </tr>
+        </table>
         <br>
         <h2>United States Data from <a href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html" target="_blank">CDC</a>:</h2>
-        <p>Total cases: {totals[0].text}, Yesterday: {pastUsCases}</p>
-        <p>New cases: {newCases}, Yesterday: {pastUsNewCases}</p>
-        <p>Total deaths: {totals[1].text}, Yesterday: {pastUsDeaths}</p>
-        <p>New deaths: {newDeaths}, Yesterday: {pastUsNewDeaths}</p>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+            <tr>
+                <td align="center" valign="top">Info</td>
+                <td align="center" valign="top">Today's Data</td>
+                <td align="center" valign="top">Yesterday's Data</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Cases</td>
+                <td align="left" valign"top>{totals[0].text}</td>
+                <td align="left" valign"top>{pastUsCases}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Cases</td>
+                <td align="left" valign"top>{newCases}</td>
+                <td align="left" valign"top>{pastUsNewCases}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Deaths</td>
+                <td align="left" valign"top>{totals[1].text}</td>
+                <td align="left" valign"top>{pastUsDeaths}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Deaths</td>
+                <td align="left" valign"top>{newDeaths}</td>
+                <td align="left" valign"top>{pastUsNewDeaths}</td>
+            </tr>
+        </table>
         <br>
         <h2>California Data from <a href="https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php" target="_blank">SF Chronicle</a>:</h2>
-        <p>Total cases: {californiaCases}, Yesterday: {maths(californiaCases,calDifferenceCases)}</p>
-        <p>New cases: {calDifferenceCases}, Yesterday: {calDifferenceCases1}</p>
-        <p>Total deaths: {californiaDeaths}, Yesterday: {maths(californiaDeaths,calDifferenceDeaths)}</p>
-        <p>New deaths: {calDifferenceDeaths}, Yesterday: {calDifferenceDeaths1}</p>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+            <tr>
+                <td align="center" valign="top">Info</td>
+                <td align="center" valign="top">Today's Data</td>
+                <td align="center" valign="top">Yesterday's Data</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Cases</td>
+                <td align="left" valign"top>{californiaCases}</td>
+                <td align="left" valign"top>{maths(californiaCases,calDifferenceCases)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Cases</td>
+                <td align="left" valign"top>{calDifferenceCases}</td>
+                <td align="left" valign"top>{calDifferenceCases1}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Deaths</td>
+                <td align="left" valign"top>{californiaDeaths}</td>
+                <td align="left" valign"top>{maths(californiaDeaths,calDifferenceDeaths)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Deaths</td>
+                <td align="left" valign"top>{calDifferenceDeaths}</td>
+                <td align="left" valign"top>{calDifferenceDeaths1}</td>
+            </tr>
+        </table>
         <br>
         <h2>Bay Area from <a href="https://www.sfchronicle.com/bayarea/article/Coronavirus-live-updates-news-bay-area-15237940.php" target="_blank">SF Chronicle</a>:</h2>
-        <p>Total cases: {bayAreaCases}, Yesterday: {maths(bayAreaCases,baDifferenceCases)}</p>
-        <p>New cases: {baDifferenceCases}, Yesterday: {baDifferenceCases1}</p>
-        <p>Total deaths: {bayAreaDeaths}, Yesterday: {maths(bayAreaDeaths,baDifferencesDeaths)}</p>
-        <p>New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}</p>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+            <tr>
+                <td align="center" valign="top">Info</td>
+                <td align="center" valign="top">Today's Data</td>
+                <td align="center" valign="top">Yesterday's Data</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Cases</td>
+                <td align="left" valign"top>{bayAreaCases}</td>
+                <td align="left" valign"top>{maths(bayAreaCases,baDifferenceCases)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Cases</td>
+                <td align="left" valign"top>{baDifferenceCases}</td>
+                <td align="left" valign"top>{baDifferenceCases1}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>Total Deaths</td>
+                <td align="left" valign"top>{bayAreaDeaths}</td>
+                <td align="left" valign"top>{maths(bayAreaDeaths,baDifferencesDeaths)}</td>
+            </tr>
+            <tr>
+                <td align="left" valign"top>New Deaths</td>
+                <td align="left" valign"top>{baDifferencesDeaths}</td>
+                <td align="left" valign"top>{baDifferencesDeaths1}</td>
+            </tr>
+        </table>
         <br>
         <h4>- COVID-19 Reporter</h4>
         <p>(Created by <a href="https://rafaelcenzano.com" target="_blank">Rafael Cenzano</a>)</p>
