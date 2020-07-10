@@ -306,11 +306,6 @@ New deaths: {baDifferencesDeaths}, Yesterday: {baDifferencesDeaths1}
                 <td align="left" valign="top">{wDifferenceDeath1}</td>
             </tr>
             <tr>
-                <td align="left" valign="top">New Deaths</td>
-                <td align="left" valign="top">{wDifferenceDeath}</td>
-                <td align="left" valign="top">{wDifferenceDeath1}</td>
-            </tr>
-            <tr>
                 <td align="left" valign="top">Total Recoveries</td>
                 <td align="left" valign="top">{worldRecoveries}</td>
                 <td align="left" valign="top">{maths(worldRecoveries,wDifferenceRecoveries)}</td>
